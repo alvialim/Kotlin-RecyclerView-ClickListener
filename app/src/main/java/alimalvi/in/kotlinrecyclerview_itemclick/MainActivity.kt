@@ -3,10 +3,10 @@ package alimalvi.`in`.kotlinrecyclerview_itemclick
 import alimalvi.`in`.kotlinrecyclerview_itemclick.Adapter.KotlinRecyclerAdapter
 import alimalvi.`in`.kotlinrecyclerview_itemclick.DataModel.Users
 import alimalvi.`in`.kotlinrecyclerview_itemclick.Utils.RecyclerItemClickListener
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,11 +24,21 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView(arraylist)
 
 
+        //RecyclerView  ClickListener
         recyclerView.addOnItemTouchListener(
                 RecyclerItemClickListener(applicationContext,
                         RecyclerItemClickListener.OnItemClickListener { view, position ->
-                        Toast.makeText(applicationContext,arraylist[position].name,Toast.LENGTH_LONG).show()
+                        val intent=Intent(applicationContext,DisplayUserDetails::class.java)
+                            intent.putExtra("username",arraylist[position].name)
+                            intent.putExtra("jobtitle",arraylist[position].jobtitle)
+                            startActivity(intent)
         }))
+
+        /*Or you can directly write following code in onBindViewHolder in Adapter
+        holder?.itemView?.setOnClickListener {
+            val intent=Intent(applicationContext,DisplayUserDetails::class.java)
+            startActivity(intent)
+        }*/
 
     }
     private fun setupRecyclerView(arrayList: ArrayList<Users>){
